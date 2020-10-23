@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import io.github.monthalcantara.estudojpa.domain.Produto;
+import io.github.monthalcantara.estudojpa.exceptions.ObjectNotFoundException;
 import io.github.monthalcantara.estudojpa.repositories.ProdutoRepository;
 
 @Service
@@ -21,7 +22,7 @@ public class ProdutoService {
 	}
 
 	public Produto buscar(Integer id) {
-		return produtoRepository.findById(id).orElse(null);
+		return produtoRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Não foi encontrado produto com o id: " + id));	
 	}
 
 	public Produto salvarNovaCategoria(Produto produto) {
@@ -37,6 +38,7 @@ public class ProdutoService {
 	}
 
 	public void deletar(Integer id) {
+		buscar(id);
 		produtoRepository.deleteById(id);
 
 	}

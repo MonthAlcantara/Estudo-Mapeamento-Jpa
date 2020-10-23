@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import io.github.monthalcantara.estudojpa.domain.Categoria;
+import io.github.monthalcantara.estudojpa.exceptions.ObjectNotFoundException;
 import io.github.monthalcantara.estudojpa.repositories.CategoriaRepository;
 
 @Service
@@ -17,7 +18,7 @@ public class CategoriaService {
 	public CategoriaRepository categoriaRepository;
 	
 	public Categoria buscar(Integer id) {
-	return categoriaRepository.findById(id).orElse(null);	
+	return categoriaRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Não foi encontrada categoria com o id: " + id));	
 	}
 
 	public Page<Categoria> buscarTodos(Pageable pageable) {
@@ -29,6 +30,7 @@ public class CategoriaService {
 	}
 
 	public void deletar(Integer id) {
+		buscar(id);
 		categoriaRepository.deleteById(id);
 		
 	}
