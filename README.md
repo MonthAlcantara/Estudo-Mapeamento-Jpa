@@ -1,9 +1,6 @@
 # Estudo-Mapeamento-Jpa
 Projeto de estudo de relacionamento entre tabelas com JPA e Hibernate. O projeto de estudo tem como ideia reproduzir os relacionamentos da imagem abaixo.
 
-## Documentação da API
-https://monthalcantara-apivendas.herokuapp.com/swagger-ui.html
-
 ## 📦 Desenvolvimento
 
 Utilizado Spring Boot, JPA e Hibernate. 
