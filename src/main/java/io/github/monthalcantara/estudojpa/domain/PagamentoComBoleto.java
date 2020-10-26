@@ -2,8 +2,11 @@ package io.github.monthalcantara.estudojpa.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import io.github.monthalcantara.estudojpa.domain.enums.EstadoPagamento;
 
+@Entity
 public class PagamentoComBoleto extends Pagamento{
 
 	private static final long serialVersionUID = 1L;
