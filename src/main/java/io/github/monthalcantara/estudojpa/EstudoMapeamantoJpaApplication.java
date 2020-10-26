@@ -13,6 +13,7 @@ import io.github.monthalcantara.estudojpa.domain.Cidade;
 import io.github.monthalcantara.estudojpa.domain.Cliente;
 import io.github.monthalcantara.estudojpa.domain.Endereco;
 import io.github.monthalcantara.estudojpa.domain.Estado;
+import io.github.monthalcantara.estudojpa.domain.ItemPedido;
 import io.github.monthalcantara.estudojpa.domain.Pagamento;
 import io.github.monthalcantara.estudojpa.domain.PagamentoComBoleto;
 import io.github.monthalcantara.estudojpa.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import io.github.monthalcantara.estudojpa.repositories.CidadeRepository;
 import io.github.monthalcantara.estudojpa.repositories.ClienteRepository;
 import io.github.monthalcantara.estudojpa.repositories.EnderecoRepository;
 import io.github.monthalcantara.estudojpa.repositories.EstadoRepository;
+import io.github.monthalcantara.estudojpa.repositories.ItemPedidoRepository;
 import io.github.monthalcantara.estudojpa.repositories.PagamentoRepository;
 import io.github.monthalcantara.estudojpa.repositories.PedidoRepository;
 import io.github.monthalcantara.estudojpa.repositories.ProdutoRepository;
@@ -49,13 +51,16 @@ public class EstudoMapeamantoJpaApplication implements CommandLineRunner {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
+
 	@Autowired
 	private PedidoRepository pedidoRepository;
 
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
-	
+
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EstudoMapeamantoJpaApplication.class, args);
 	}
@@ -102,21 +107,35 @@ public class EstudoMapeamantoJpaApplication implements CommandLineRunner {
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		
+
 		Pedido ped1 = new Pedido(null, sdf.parse("26/10/2020 11:40"), cli1, e1);
 		Pedido ped2 = new Pedido(null, sdf.parse("26/10/2020 11:42"), cli1, e2);
-		
+
 		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
 		ped1.setPagamento(pagto1);
-		
-		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("15/11/2020 00:00") , null);
+
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("15/11/2020 00:00"),
+				null);
 		ped2.setPagamento(pagto2);
-		
+
 		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
-		
+
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 }
