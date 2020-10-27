@@ -1,5 +1,7 @@
 package io.github.monthalcantara.estudojpa.controllers;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.github.monthalcantara.estudojpa.domain.Categoria;
 import io.github.monthalcantara.estudojpa.services.CategoriaService;
@@ -35,8 +38,14 @@ public class CategoriaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity criaNovaCategoria(@RequestBody Categoria categoria ) {
-		return ResponseEntity.ok(categoriaService.salvarNovaCategoria(categoria));
+	public ResponseEntity<Void> criaNovaCategoria(@RequestBody Categoria categoria ) {
+		categoria = categoriaService.salvarNovaCategoria(categoria);
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(categoria.getId())
+				.toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping("/{id}")
