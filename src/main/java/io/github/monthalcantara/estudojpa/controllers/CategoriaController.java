@@ -2,8 +2,12 @@ package io.github.monthalcantara.estudojpa.controllers;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +34,7 @@ public class CategoriaController {
 	private CategoriaService categoriaService;
 
 	@GetMapping
-	public ResponseEntity buscaTodos(Pageable pageable) {
+	public ResponseEntity buscaTodos(@PageableDefault(size = 24, sort = "id", direction = Direction.ASC) Pageable pageable) {
 		return ResponseEntity.ok(categoriaService.buscarTodos(pageable));
 	}
 
@@ -41,16 +45,16 @@ public class CategoriaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Categoria> criaNovaCategoria(@RequestBody Categoria categoria) {
-		categoria = categoriaService.salvarNovaCategoria(categoria);
+	public ResponseEntity<CategoriaDTO> criaNovaCategoria(@RequestBody @Valid CategoriaDTO categoriaDTO) {
+		Categoria categoria = categoriaService.salvarNovaCategoria(new Categoria(categoriaDTO));
 		URI uri = geradorDeLocation(categoria);
 		return ResponseEntity.status(HttpStatus.CREATED).header(HttpHeaders.LOCATION, String.valueOf(uri))
-				.body(categoria);
+				.body(new CategoriaDTO(categoria));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<CategoriaDTO> atualizaCategoria(@PathVariable Integer id, @RequestBody Categoria categoria) {
-		categoria = categoriaService.atualizarCategoria(id, categoria);
+	public ResponseEntity<CategoriaDTO> atualizaCategoria(@PathVariable Integer id, @Valid @RequestBody CategoriaDTO categoriaDTO) {
+		Categoria categoria = categoriaService.atualizarCategoria(id, new Categoria(categoriaDTO));
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(categoria.getId()).toUri();
 		return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.LOCATION, String.valueOf(uri))
 				.body(new CategoriaDTO(categoria));
