@@ -2,12 +2,19 @@ package io.github.monthalcantara.estudojpa.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import io.github.monthalcantara.estudojpa.domain.Categoria;
 
 public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	
+	@NotEmpty(message = "É obrigatório informar um nome para a categoria")
+	@Length(min = 3, max = 80, message = "O nome deve ter entre 3 e 80 caracteres")
 	private String nome;
 
 	public CategoriaDTO() {
@@ -65,6 +72,5 @@ public class CategoriaDTO implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
 }
