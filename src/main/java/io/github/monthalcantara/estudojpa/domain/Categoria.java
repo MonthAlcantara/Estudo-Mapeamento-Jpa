@@ -10,9 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.github.monthalcantara.estudojpa.dto.CategoriaDTO;
 
 @Entity
 public class Categoria implements Serializable {
@@ -29,6 +27,12 @@ public class Categoria implements Serializable {
 
 	public Categoria() {
 
+	}
+	
+	public Categoria(CategoriaDTO cat) {
+		super();
+		this.id = cat.getId();
+		this.nome = cat.getNome();
 	}
 
 	public Categoria(Integer id, String nome) {
