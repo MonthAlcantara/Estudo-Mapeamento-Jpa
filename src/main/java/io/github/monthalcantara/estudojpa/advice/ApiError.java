@@ -1,6 +1,8 @@
 package io.github.monthalcantara.estudojpa.advice;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 public class ApiError implements Serializable{
 
@@ -8,15 +10,30 @@ public class ApiError implements Serializable{
 
 	private Integer status;
 	
-	private String msg;
-	
 	private Long timeStamp;
+	
+	private List<String> errors;
 
 	public ApiError(Integer status, String msg, Long timeStamp) {
 		super();
 		this.status = status;
-		this.msg = msg;
+		this.errors = Arrays.asList(msg);
 		this.timeStamp = timeStamp;
+	}
+	
+	public ApiError(Integer status, List<String> errors, Long timeStamp) {
+		super();
+		this.status = status;
+		this.errors = errors;
+		this.timeStamp = timeStamp;
+	}
+
+	public List<String> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(List<String> errors) {
+		this.errors = errors;
 	}
 
 	public Integer getStatus() {
@@ -25,14 +42,6 @@ public class ApiError implements Serializable{
 
 	public void setStatus(Integer status) {
 		this.status = status;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
 	}
 
 	public Long getTimeStamp() {
