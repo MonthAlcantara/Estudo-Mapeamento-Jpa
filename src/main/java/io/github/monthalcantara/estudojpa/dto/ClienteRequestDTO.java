@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import io.github.monthalcantara.estudojpa.validation.annotations.ClienteInsert;
+
+@ClienteInsert
 public class ClienteRequestDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
