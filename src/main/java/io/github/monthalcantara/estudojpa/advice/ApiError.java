@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class ApiError implements Serializable{
+public class ApiError implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Integer status;
-	
+
 	private Long timeStamp;
-	
+
 	private List<String> errors;
 
 	public ApiError(Integer status, String msg, Long timeStamp) {
@@ -20,12 +20,18 @@ public class ApiError implements Serializable{
 		this.errors = Arrays.asList(msg);
 		this.timeStamp = timeStamp;
 	}
-	
+
 	public ApiError(Integer status, List<String> errors, Long timeStamp) {
 		super();
 		this.status = status;
 		this.errors = errors;
 		this.timeStamp = timeStamp;
+	}
+
+	public ApiError(Integer status, String msg) {
+		super();
+		this.status = status;
+		this.errors = Arrays.asList(msg);
 	}
 
 	public List<String> getErrors() {
@@ -52,5 +58,4 @@ public class ApiError implements Serializable{
 		this.timeStamp = timeStamp;
 	}
 
-	
 }
