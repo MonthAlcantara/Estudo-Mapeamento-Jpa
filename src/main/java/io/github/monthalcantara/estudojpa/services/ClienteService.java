@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -61,7 +62,7 @@ public class ClienteService {
 		buscar(id);
 		try {
 			clienteRepository.deleteById(id);
-		} catch (DataIntegrityException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível deletar esse cliente pois há pedidos relacionados a ele");
 		}
 
