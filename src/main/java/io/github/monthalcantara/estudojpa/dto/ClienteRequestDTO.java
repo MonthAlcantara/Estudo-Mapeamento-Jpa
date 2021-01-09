@@ -58,9 +58,18 @@ public class ClienteRequestDTO implements Serializable{
 
 	public ClienteRequestDTO(
 			@NotEmpty @Length(min = 3, max = 80) String nome,
-			@Email String email, @NotEmpty String cpfOuCnpj,
-			@NotNull Integer tipo, @NotEmpty String logradouro, @NotEmpty String numero, @NotEmpty String complemento, @NotEmpty String bairro, @NotEmpty String cep,
-			@NotNull Integer cidade, @NotEmpty String telefone1, String telefone2, String telefone3) {
+			@Email String email,
+			@NotEmpty String cpfOuCnpj,
+			@NotNull Integer tipo,
+			@NotEmpty String logradouro,
+			@NotEmpty String numero,
+			@NotEmpty String complemento,
+			@NotEmpty String bairro,
+			@NotEmpty String cep,
+			@NotNull Integer cidade,
+			@NotEmpty String telefone1,
+			String telefone2,
+			String telefone3) {
 		super();
 		this.nome = nome;
 		this.email = email;
